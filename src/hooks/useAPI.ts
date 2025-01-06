@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { apiClient } from '../utils/api';
+import { apiClient } from '../utils/api';  // 절대 경로 사용
+import { ApiResponse } from '../types/api'; // 타입 import 추가
 
 export function useApi() {
   const [loading, setLoading] = useState(false);
