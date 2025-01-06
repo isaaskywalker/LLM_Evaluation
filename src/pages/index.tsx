@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
 import { Layout } from '@/components/shared/Layout';
 import { useAuthStore } from '@/store/authStore';
 
@@ -17,18 +18,18 @@ const Home: NextPage = () => {
               프롬프트를 평가하기 위해 로그인해주세요.
             </p>
             <div className="space-x-4">
-              
+              <Link
                 href="/auth/login"
                 className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-medium"
               >
                 로그인하기
-              </a>
-              
+              </Link>
+              <Link
                 href="/auth/register"
                 className="inline-block border border-primary text-primary px-6 py-3 rounded-lg font-medium"
               >
                 회원가입하기
-              </a>
+              </Link>
             </div>
           </div>
         ) : (
