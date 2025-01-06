@@ -1,11 +1,16 @@
-import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import type { NextPage } from 'next';
+import { AuthProvider } from '@/components/auth/AuthProvider';
 
-const DashboardPage = () => {
+const Home: NextPage = () => {
   return (
-    <ProtectedRoute>
-      <div>대시보드 내용</div>
-    </ProtectedRoute>
+    <AuthProvider>
+      <div className="min-h-screen bg-gray-100">
+        <h1 className="text-2xl font-bold text-center py-8">
+          LLM Evaluation Platform
+        </h1>
+      </div>
+    </AuthProvider>
   );
 };
 
-export default DashboardPage;
+export default Home;
