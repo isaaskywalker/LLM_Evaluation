@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { apiClient } from '../utils/api';  // 절대 경로 사용
-import { ApiResponse } from '../types/api'; // 타입 import 추가
+import {apiClient} from '../utils/api';  // default import로 변경
+import { ApiResponse } from '../types/api';
 
 export function useApi() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const callApi = async <T,>(
+    // apiFunction의 타입을 한번만 선언
     apiFunction: () => Promise<ApiResponse<T>>
-  ): Promise<T | null> => {
+  ) => {
     setLoading(true);
     setError(null);
+    
     try {
       const response = await apiFunction();
       if (!response.success) {

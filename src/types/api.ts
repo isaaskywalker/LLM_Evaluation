@@ -1,3 +1,4 @@
+// src/types/api.ts
 export const API_ROUTES = {
     auth: {
       login: '/api/auth/login',
@@ -6,8 +7,7 @@ export const API_ROUTES = {
     },
     prompt: {
       submit: '/api/prompt/submit',
-      evaluate: '/api/prompt/evaluate',
-      history: '/api/prompt/history'
+      evaluate: '/api/prompt/evaluate'
     },
     settings: {
       updateApiKeys: '/api/settings/api-keys',
@@ -15,14 +15,12 @@ export const API_ROUTES = {
     }
   } as const;
   
-  // API Response 타입 정의
   export interface ApiResponse<T = any> {
     success: boolean;
     data?: T;
     error?: string;
   }
   
-  // API 엔드포인트별 요청/응답 타입 정의
   export interface LoginRequest {
     email: string;
     password: string;
