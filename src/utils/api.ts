@@ -1,31 +1,17 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import { 
-  API_ROUTES, 
-  ApiResponse, 
-  LoginRequest, 
-  LoginResponse, 
-  PromptRequest, 
-  PromptResponse 
-} from '../types/api';
-
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
-      NEXT_PUBLIC_API_BASE_URL: string;
-    }
-  }
-}
+import axios from 'axios';
+import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { API_ROUTES } from '../types/api';
+import type { ApiResponse, LoginRequest, LoginResponse } from '../types/api';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: (process.env.NEXT_PUBLIC_API_BASE_URL as string) || '',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// API 인터셉터 설정
 api.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {  // AxiosRequestConfig를 InternalAxiosRequestConfig로 변경
     const token = localStorage.getItem('token');
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -33,27 +19,17 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
-    return Promise.reject(error);
+    return Promise.reject(error) as Promise<never>;  // 명시적 타입 캐스팅 추가
   }
 );
 
-// API 메서드 정의
 export const apiClient = {
   auth: {
-    login: async (credentials: LoginRequest): Promise<ApiResponse<LoginResponse>> => {
-      const response = await api.post(API_ROUTES.auth.login, credentials);
-      return response.data;
-    },
-  },
-  prompt: {
-    submit: async (promptData: PromptRequest): Promise<ApiResponse<PromptResponse>> => {
-      const response = await api.post(API_ROUTES.prompt.submit, promptData);
-      return response.data;
-    },
-  },
-  settings: {
-    updateApiKeys: async (apiKeys: Record<string, string>): Promise<ApiResponse<void>> => {
-      const response = await api.put(API_ROUTES.settings.updateApiKeys, apiKeys);
+    login: async (credentials: LoginRequest) => {
+      const response = await api.post<ApiResponse<LoginResponse>>(
+        API_ROUTES.auth.login, 
+        credentials
+      );
       return response.data;
     },
   },
