@@ -1,13 +1,11 @@
-import { NextPage } from 'next';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
-const Home: NextPage = () => {
+const DashboardPage = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <h1 className="text-2xl font-bold text-center py-8">
-        LLM Evaluation Platform
-      </h1>
-    </div>
+    <ProtectedRoute>
+      <div>대시보드 내용</div>
+    </ProtectedRoute>
   );
 };
 
-export default Home;
+export default DashboardPage;
